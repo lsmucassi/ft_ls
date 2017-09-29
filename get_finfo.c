@@ -6,7 +6,7 @@
 /*   By: lmucassi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/29 13:49:11 by lmucassi          #+#    #+#             */
-/*   Updated: 2017/09/29 14:02:07 by lmucassi         ###   ########.fr       */
+/*   Updated: 2017/09/29 17:17:13 by lmucassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_date(struct stat info)
 	char	*time_file;
 	char	*time_tabfile;
 	char	*time_now;
-	char	*time_tabnow;
+	char	**time_tabnow;
 	time_t	now;
 
 	now = time(NULL);
@@ -46,4 +46,50 @@ char	*get_date(struct stat info)
 	if (!ft_strcmp(time_tabnow[4], time_tabfile[4]))
 	{
 		time_tabfile[3][5] = 0;
-		time_file = ft_strjoin
+		time_file = strjoin_nlim(' ', time_tabfile[1], time_tabfile[2],
+				time_tabfile[3], NULL);
+	}
+	else
+		time_file = strjoin_nlim(' ', time_tabfile[1], time_tabfile[2],
+				time_tabfile[4], NULL);
+		ft_memdel((void **)&time_tabnow);
+		ft_memdel((void **)&time_tabfile);
+		return (time_file);
+}
+
+char		file_type(mode_t file_mode)
+{
+	if (S_ISDIR(file_mode))
+		return ('d');
+	else if (S_ISIFIFO(file_mode))
+		return ('p');
+	else if (S_ISCHR(file_mode))
+		return ('c');
+	else if (S_ISBLK(file_mode))
+		return ('b');
+	else if (S_ISLNK(file_mode))
+		return ('l');
+	else if (S_ISSOCK(file_mode))
+		return ('s');
+	else if (S_ISREG(file_mode))
+		return ('-');
+	else
+		return ('-');
+}
+
+char		*file_permit(mode_t file_mode)
+{
+	char 	*perm;
+
+	perm = ft_strnew(10);
+	(file_mode & S_IRUSR) ? ft_strcat(perm, "r") : ft_strcat(perm, "-");
+	(file_mode & S_IWUSR) ? ft_strcat(perm, "w") : ft_strcat(perm, "-");
+	(file_mode & S_IXUSR) ? ft_strcat(perm, "x") : ft_strcat(perm, "-");
+	(file_mode & S_IRGRP) ? ft_strcat(perm, "r") : ft_strcat(perm, "-");
+	(file_mode & S_IWGRP) ? ft_strcat(perm, "w") : ft_strcat(perm, "-");
+	(file_mode & S_IXGRP) ? ft_strcat(perm, "x") : ft_strcat(perm, "-");
+	(file_mode & S_IROTH) ? ft_strcat(perm, "r") : ft_strcat(perm, "-");
+	(file_mode & S_IWOTH) ? ft_strcat(perm, "w") : ft_strcat(perm, "-");
+	(file_mode & S_IXOTH) ? ft_strcat(perm, "x") : ft_strcat(perm, "-");
+	return (perm);
+}
