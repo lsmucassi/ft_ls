@@ -6,7 +6,7 @@
 /*   By: lmucassi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 15:13:19 by lmucassi          #+#    #+#             */
-/*   Updated: 2017/09/29 17:00:19 by lmucassi         ###   ########.fr       */
+/*   Updated: 2017/09/29 20:54:26 by giyant           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char		*get_date(struct stat info);
 char		*get_group(struct stat info);
 char		*get_owner(struct stat info);
 
-int			get_col(t_files *head, char *field);
-int			get_tot(t_files *head);
+int			get_lencol(t_files *head, char *field);
+int			get_totcol(t_files *head);
 
 #endif
